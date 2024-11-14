@@ -23,7 +23,7 @@
     
     <div class="">
         <Button variant="outline" size="sm" class="m-3 edu-au-vic-wa-nt-pre-400 text-stone-600"
-            on:click={()=>{}}>
+            on:click={()=>{goto("/auth/login")}}>
             Login
         </Button>
     </div>
