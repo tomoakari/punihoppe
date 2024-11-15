@@ -24,6 +24,7 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
         // ユーザーデータの保存（この例ではメモリに保存）
         // 実際のアプリケーションではデータベースに保存する
         // sessions.set(sessionId, userData);
+        console.log("userData: " + JSON.stringify(userData))
 
         throw redirect(302, '/mypage');
     } catch (error) {
