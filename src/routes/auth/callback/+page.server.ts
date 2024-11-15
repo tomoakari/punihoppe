@@ -23,9 +23,9 @@ export const load: PageServerLoad = async ({ url, cookies }) => {
 
         // ユーザーデータの保存（この例ではメモリに保存）
         // 実際のアプリケーションではデータベースに保存する
-        sessions.set(sessionId, userData);
+        // sessions.set(sessionId, userData);
 
-        throw redirect(302, '/dashboard');
+        throw redirect(302, '/mypage');
     } catch (error) {
         console.error('Authentication error:', error);
         throw redirect(302, '/auth/error');
