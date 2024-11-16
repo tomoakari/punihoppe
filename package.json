@@ -34,6 +34,8 @@
 		"@auth/core": "^0.37.3",
 		"@auth/sveltekit": "^1.7.3",
 		"@sveltejs/adapter-node": "^5.2.9",
+		"firebase": "^11.0.2",
+		"firebase-admin": "^13.0.0",
 		"googleapis": "^144.0.0"
 	}
 }
