@@ -22,7 +22,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 
         // ユーザーデータの保存
         // 注: 実際のアプリケーションではデータベースに保存する
-        sessions.set(sessionId, userData);
+        // sessions.set(sessionId, userData);
+        console.log("userData: " + JSON.stringify(userData))
 
         // 302リダイレクトを返す
         return new Response(null, {
