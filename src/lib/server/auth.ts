@@ -6,6 +6,10 @@ const oauth2Client = new google.auth.OAuth2(
     'https://punihoppe.site/auth/callback'
 );
 
+/**
+ * Google認証の一時URLを取得する
+ * @returns 
+ */
 export function getGoogleAuthURL() {
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -13,6 +17,11 @@ export function getGoogleAuthURL() {
     });
 }
 
+/**
+ * トークンからGoogleユーザ情報を取得する
+ * @param code 
+ * @returns 
+ */
 export async function getGoogleUser(code: string) {
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);

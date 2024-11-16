@@ -33,6 +33,11 @@ export class SessionStore {
         return sessionId;
     }
 
+    /**
+     * セッション情報を取得
+     * @param sessionId 
+     * @returns 
+     */
     async getSession(sessionId: string): Promise<SessionData | null> {
         try {
             const doc = await this.collection.doc(sessionId).get();
@@ -55,6 +60,10 @@ export class SessionStore {
         }
     }
 
+    /**
+     * セッション情報を削除
+     * @param sessionId 
+     */
     async deleteSession(sessionId: string): Promise<void> {
         try {
             await this.collection.doc(sessionId).delete();
@@ -63,7 +72,10 @@ export class SessionStore {
         }
     }
 
-    // セッションの更新（有効期限の延長）
+    /**
+     * セッションの更新（有効期限の延長）
+     * @param sessionId 
+     */
     async updateSession(sessionId: string): Promise<void> {
         try {
             const expiresAt = Timestamp.fromMillis(Date.now() + this.SESSION_DURATION);
@@ -76,7 +88,10 @@ export class SessionStore {
         }
     }
 
-    // 期限切れセッションの削除
+    /**
+     * 期限切れセッションの削除
+     * ※これは毎日Cloud functionsから呼び出して実行するとよいかも
+     */
     async cleanExpiredSessions(): Promise<void> {
         try {
             const now = Timestamp.now();
