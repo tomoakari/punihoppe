@@ -6,8 +6,8 @@
     let processenv: string | undefined
 
     onMount(()=>{
-        metaenv = import.meta.env.GOOGLE_CLIENT_ID
-        processenv = process.env.GOOGLE_CLIENT_ID
+        metaenv = import.meta.env.VITE_ENVTEST
+        processenv = process.env.VITE_ENVTEST
     })
     
 </script>
