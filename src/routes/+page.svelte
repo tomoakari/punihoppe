@@ -1,9 +1,14 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button";
+	import { onMount } from "svelte";
 
-    let metaenv = import.meta.env.FIREBASE_CLIENT_ID
+    let metaenv: any
+    let processenv: string | undefined
 
-    let processenv = process.env.FIREBASE_CLIENT_ID
+    onMount(()=>{
+        metaenv = import.meta.env.FIREBASE_CLIENT_ID
+        processenv = process.env.FIREBASE_CLIENT_ID
+    })
     
 </script>
 
