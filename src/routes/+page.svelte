@@ -6,8 +6,8 @@
     let processenv: string | undefined
 
     onMount(()=>{
-        metaenv = import.meta.env.FIREBASE_CLIENT_ID
-        processenv = process.env.FIREBASE_CLIENT_ID
+        metaenv = import.meta.env.GOOGLE_CLIENT_ID
+        processenv = process.env.GOOGLE_CLIENT_ID
     })
     
 </script>
