@@ -8,8 +8,13 @@
     metaenv = import.meta.env.VITE_ENVTEST
     processenv = process.env.VITE_ENVTEST
 
+    let keepStr = processenv
+    console.log("地の部分processenv" + processenv)
+    console.log("地の部分keepStr" + keepStr)
+
     onMount(()=>{
-        
+        console.log("Mountの部分processenv" + processenv)
+        console.log("Mountの部分keepStr" + keepStr)
     })
     
 </script>
@@ -23,4 +28,8 @@
 <p>
     processenv: {processenv}
 </p>
+<p>
+    keepStr: {keepStr}
+</p>
+
 
