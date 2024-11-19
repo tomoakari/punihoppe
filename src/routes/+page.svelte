@@ -5,9 +5,11 @@
     let metaenv: any
     let processenv: string | undefined
 
+    metaenv = import.meta.env.VITE_ENVTEST
+    processenv = process.env.VITE_ENVTEST
+
     onMount(()=>{
-        metaenv = import.meta.env.VITE_ENVTEST
-        processenv = process.env.VITE_ENVTEST
+        
     })
     
 </script>
