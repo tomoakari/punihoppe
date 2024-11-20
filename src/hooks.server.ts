@@ -1,4 +1,6 @@
 import { redirect, type Handle } from '@sveltejs/kit';
+import { SessionStore } from '$lib/server/session';
+const sessionStore = new SessionStore();
 
 export const handle: Handle = async ({ event, resolve }) => {
     const sessionId = event.cookies.get('session');
