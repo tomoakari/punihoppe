@@ -1,20 +1,37 @@
-import { SessionStore } from '$lib/server/session';
-import type { Handle } from '@sveltejs/kit';
-
-const sessionStore = new SessionStore();
+import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
     const sessionId = event.cookies.get('session');
     
-    if (sessionId) {
-        const session = await sessionStore.getSession(sessionId);
-        if (session) {
-            event.locals.user = session.userData;
-            // セッションの有効期限を延長
-            await sessionStore.updateSession(sessionId);
+    // セッションIDの存在チェック
+    if (!sessionId) {
+        event.locals.user = null;
+    } else {
+        try {
+            // セッション情報の取得（前回実装したSessionStoreを使用）
+            const session = await sessionStore.getSession(sessionId);
+            if (session) {
+                event.locals.user = session.userData;
+            } else {
+                event.cookies.delete('session', { path: '/' });
+                event.locals.user = null;
+            }
+        } catch (error) {
+            console.error('Error getting session:', error);
+            event.locals.user = null;
         }
     }
 
-    const response = await resolve(event);
-    return response;
+    // 保護されたルートの定義
+    const protectedRoutes = ['/mypage', '/compiling'];
+    const isProtectedRoute = protectedRoutes.some(route => 
+        event.url.pathname.startsWith(route)
+    );
+
+    // 未ログインで保護されたルートにアクセスした場合、ログインページにリダイレクト
+    if (isProtectedRoute && !event.locals.user) {
+        throw redirect(302, `/auth/login?redirect=${event.url.pathname}`);
+    }
+
+    return resolve(event);
 };

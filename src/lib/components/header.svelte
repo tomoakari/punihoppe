@@ -2,7 +2,6 @@
 	import { goto } from "$app/navigation";
     import { Button } from "./ui/button";
     import { SERVICE_TITLE } from "./const/const";
-
     import { page } from '$app/stores';
 </script>
 
@@ -16,16 +15,21 @@
         <Button variant="ghost" size="sm" class="edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/search")}>
             Search
         </Button>
+        {#if $page.data.user}
         <Button variant="ghost" size="sm" class="edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/mypage")}>
             Mypage
         </Button>
+        {/if}
     </div>
     
     <div class="">
+        {#if !$page.data.user}
         <Button variant="outline" size="sm" class="m-3 edu-au-vic-wa-nt-pre-400 text-stone-600"
             on:click={()=>{goto("/auth/login")}}>
             Login
         </Button>
+        {/if}
+
     </div>
 </header>
 
