@@ -1,10 +1,15 @@
+import { StorageService } from './storage';
 import { db } from './firebase';
 import { Timestamp, FieldValue } from 'firebase-admin/firestore';
 import type { UserProfile } from '$lib/types/user';
 
 export class UserStore {
     private collection = db.collection('users');
-    private storage = new StorageService();
+    private storageService: StorageService;
+
+    constructor() {
+        this.storageService = new StorageService();
+    }
 
     async getProfile(userId: string): Promise<UserProfile | null> {
         try {
@@ -37,17 +42,24 @@ export class UserStore {
             };
 
             if (profileImage) {
-                // 既存の画像を削除
+                // 現在のプロフィールを取得
                 const currentProfile = await this.getProfile(userId);
+
+                // 既存の画像があれば削除
                 if (currentProfile?.profileImageUrl) {
-                    await this.storage.deleteProfileImage(currentProfile.profileImageUrl);
+                    await this.storageService.deleteProfileImage(currentProfile.profileImageUrl);
                 }
 
                 // 新しい画像をアップロード
-                const imageUrl = await this.storage.uploadProfileImage(userId, profileImage, 'image/jpeg');
+                const imageUrl = await this.storageService.uploadProfileImage(
+                    userId,
+                    profileImage,
+                    'image/jpeg'
+                );
                 updateData.profileImageUrl = imageUrl;
             }
 
+            // プロフィールを更新
             await this.collection.doc(userId).set(updateData, { merge: true });
         } catch (error) {
             console.error('Error updating user profile:', error);
