@@ -1,6 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import { getGoogleUser } from '$lib/server/auth';
 import type { RequestHandler } from '@sveltejs/kit';
+import { SessionStore } from '$lib/server/session';
+const sessionStore = new SessionStore();
 
 export const GET: RequestHandler = async ({ url, cookies }) => {
     const code = url.searchParams.get('code');
