@@ -18,17 +18,6 @@
     let successMessage = '';
     let customTagInput = '';
     let imagePreview: string | null = null;
-    
-    async function handleSubmit(event: any) {
-        errorMessage = '';
-        successMessage = '';
-        
-        const biography = event.target.biography.value;
-        if (biography.length > 500) {
-            errorMessage = '自己紹介は500文字以内で入力してください';
-            return;
-        }
-    }
 
     function handleImageChange(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -116,57 +105,6 @@
             </p>
         </div>
 
-        <!-- 既存のフォーム要素（都道府県、ユーザー種別、タグ、自己紹介） -->
-        
-        <!-- カスタムタグ -->
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-                カスタムタグ（最大10個まで）
-            </label>
-            <div class="flex flex-wrap gap-2 mb-2">
-                {#each profile.customTags as tag}
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
-                        {tag}
-                        <button
-                            type="button"
-                            class="ml-2 inline-flex items-center p-0.5 rounded-full text-indigo-400 hover:text-indigo-500 focus:outline-none"
-                            on:click={() => removeCustomTag(tag)}
-                        >
-                            ×
-                        </button>
-                    </span>
-                {/each}
-            </div>
-            <div class="flex gap-2">
-                <input
-                    type="text"
-                    bind:value={customTagInput}
-                    placeholder="新しいタグを入力"
-                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    maxlength="20"
-                >
-                <button
-                    type="button"
-                    on:click={addCustomTag}
-                    class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    追加
-                </button>
-            </div>
-            <input type="hidden" name="customTags" value={profile.customTags.join(',')}>
-        </div>
-        
-        <div>
-            <button
-                type="submit"
-                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-                保存する
-            </button>
-        </div>
-    </form>
-    
-    <form method="POST" action="?/update" use:enhance on:submit|preventDefault={handleSubmit} class="space-y-6">
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
                 活動エリア（複数選択可）
@@ -241,6 +179,44 @@
             <p class="text-sm text-gray-500 mt-1">
                 {profile.biography.length}/500文字
             </p>
+        </div>
+        
+        <!-- カスタムタグ -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                カスタムタグ（最大10個まで）
+            </label>
+            <div class="flex flex-wrap gap-2 mb-2">
+                {#each profile.customTags as tag}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                        {tag}
+                        <button
+                            type="button"
+                            class="ml-2 inline-flex items-center p-0.5 rounded-full text-indigo-400 hover:text-indigo-500 focus:outline-none"
+                            on:click={() => removeCustomTag(tag)}
+                        >
+                            ×
+                        </button>
+                    </span>
+                {/each}
+            </div>
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    bind:value={customTagInput}
+                    placeholder="新しいタグを入力"
+                    class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    maxlength="20"
+                >
+                <button
+                    type="button"
+                    on:click={addCustomTag}
+                    class="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    追加
+                </button>
+            </div>
+            <input type="hidden" name="customTags" value={profile.customTags.join(',')}>
         </div>
         
         <div>

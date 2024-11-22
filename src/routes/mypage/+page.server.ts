@@ -5,6 +5,33 @@ import type { Actions, PageServerLoad } from './$types';
 const userStore = new UserStore();
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
+export const load: PageServerLoad = async ({ locals }) => {
+    if (!locals.user?.email) {
+        throw error(401, 'Unauthorized');
+    }
+
+    const profile = await userStore.getProfile(locals.user.email);
+    return {
+        profile,
+        prefectureOptions: [
+            { value: '1', label: '東京都' },
+            { value: '2', label: '神奈川県' },
+            { value: '3', label: '千葉県' },
+            { value: '4', label: '埼玉県' }
+        ],
+        userTypeOptions: [
+            { value: 'カメラマン', label: 'カメラマン' },
+            { value: 'モデル', label: 'モデル' }
+        ],
+        tagOptions: [
+            { value: 'ポートレート', label: 'ポートレート' },
+            { value: '風景', label: '風景' },
+            { value: 'スナップ', label: 'スナップ' },
+            { value: 'ファッション', label: 'ファッション' }
+        ]
+    };
+};
+
 export const actions: Actions = {
     update: async ({ request, locals }) => {
         if (!locals.user?.email) {
