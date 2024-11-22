@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button";
-    const ENV = import.meta.env.VITE_ENVTEST;
-    console.log('import.meta.env.VITE_ENVTEST... ' + ENV)
+    const ENV = import.meta.env.ENVTEST;
+    console.log('import.meta.env.ENVTEST... ' + ENV)
     
 </script>
 
