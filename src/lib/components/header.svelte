@@ -11,7 +11,7 @@
             {SERVICE_TITLE}
         </Button>
     </div>
-    <div class="ml-auto mr-3">
+    <div class="ml-auto mr-5">
         <Button variant="ghost" size="sm" class="my-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/search")}>
             Search
         </Button>
