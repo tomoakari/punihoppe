@@ -9,6 +9,8 @@
     let compilation = data.compilation;
     let dragDisabled = false;
     let customColor = '';
+
+    $: portfolioUrl = `https://punihoppe.site/portfolio/${compilation.compilation_id}`;
     
     function handleFileSelect(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -170,6 +172,32 @@
                     設定を保存
                 </button>
             </form>
+
+            {#if compilation.compilation_id}
+            <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                <h2 class="text-lg font-semibold mb-2">ポートフォリオURL</h2>
+                <div class="flex items-center gap-4">
+                    <a 
+                        href={portfolioUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-blue-600 hover:text-blue-800 underline break-all"
+                    >
+                        {portfolioUrl}
+                    </a>
+                    <button
+                        type="button"
+                        class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                        on:click={() => {
+                            navigator.clipboard.writeText(portfolioUrl);
+                            // オプション: コピー成功を通知
+                        }}
+                    >
+                        URLをコピー
+                    </button>
+                </div>
+            </div>
+            {/if}
         </div>
     </div>
 </div>

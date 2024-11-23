@@ -2,6 +2,7 @@ import { db } from './firebase';
 import { StorageService } from './storage';
 import type { CompilationSettings, CompilationImage } from '$lib/types';
 import { Timestamp, FieldValue } from 'firebase-admin/firestore';
+import { randomUUID } from 'crypto'; 
 
 export class CompilationStore {
     private collection = db.collection('compilations');
@@ -20,6 +21,7 @@ export class CompilationStore {
             const data = doc.data();
             return {
                 id: doc.id,
+                compilation_id: data?.compilation_id || '',
                 userId,
                 templateId: data?.templateId || 0,
                 backgroundColor: data?.backgroundColor || '#ffffff',
@@ -30,6 +32,25 @@ export class CompilationStore {
             console.error('Error getting compilation:', error);
             return null;
         }
+    }
+
+    async createCompilation(userId: string): Promise<CompilationSettings> {
+        const compilation_id = randomUUID();
+        const initialData = {
+            compilation_id,
+            userId,
+            templateId: 0,
+            backgroundColor: '#ffffff',
+            images: [],
+            updatedAt: FieldValue.serverTimestamp()
+        };
+
+        await this.collection.doc(userId).set(initialData);
+        return {
+            id: userId,
+            ...initialData,
+            updatedAt: new Date()
+        };
     }
 
     async updateCompilation(userId: string, settings: Partial<CompilationSettings>): Promise<void> {
@@ -48,41 +69,37 @@ export class CompilationStore {
     async uploadImage(userId: string, file: Buffer, order: number, mimeType: string): Promise<CompilationImage> {
         try {
             const imageUrl = await this.storage.uploadCompilationImage(userId, file, mimeType);
-            const imageId = crypto.randomUUID();
+            const imageId = randomUUID();
             const image: CompilationImage = {
                 id: imageId,
                 url: imageUrl,
                 order
             };
-    
+
             const doc = this.collection.doc(userId);
-            
-            // ドキュメントの存在確認
             const docSnapshot = await doc.get();
             
             if (!docSnapshot.exists) {
-                // ドキュメントが存在しない場合は新規作成
-                await doc.set({
-                    userId: userId,
-                    templateId: 0,
-                    backgroundColor: '#ffffff',
-                    images: [image],
+                // 新規作成時はcompilation_idも生成
+                const compilation = await this.createCompilation(userId);
+                await doc.update({
+                    images: FieldValue.arrayUnion(image),
                     updatedAt: FieldValue.serverTimestamp()
                 });
             } else {
-                // 既存のドキュメントを更新
                 await doc.update({
                     images: FieldValue.arrayUnion(image),
                     updatedAt: FieldValue.serverTimestamp()
                 });
             }
-    
+
             return image;
         } catch (error) {
             console.error('Error uploading image:', error);
             throw error;
         }
     }
+
 
     async deleteImage(userId: string, imageId: string): Promise<void> {
         try {

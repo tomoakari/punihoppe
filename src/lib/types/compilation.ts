@@ -1,5 +1,6 @@
 export interface CompilationSettings {
     id: string;
+    compilation_id: string;
     userId: string;
     templateId: number;
     backgroundColor: string;

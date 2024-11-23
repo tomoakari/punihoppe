@@ -11,14 +11,15 @@ export const load: PageServerLoad = async ({ locals }) => {
         throw error(401, 'Unauthorized');
     }
 
-    const compilation = await compilationStore.getCompilation(locals.user.email);
+    let compilation = await compilationStore.getCompilation(locals.user.email);
+    
+    // コンピレーションが存在しない場合は新規作成
+    if (!compilation) {
+        compilation = await compilationStore.createCompilation(locals.user.email);
+    }
 
     return {
-        compilation: compilation || {
-            templateId: 0,
-            backgroundColor: '#ffffff',
-            images: []
-        },
+        compilation,
         templates: [
             { id: 0, name: 'テンプレート1' },
             { id: 1, name: 'テンプレート2' },
