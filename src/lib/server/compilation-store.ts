@@ -54,12 +54,29 @@ export class CompilationStore {
                 url: imageUrl,
                 order
             };
-
+    
             const doc = this.collection.doc(userId);
-            await doc.update({
-                images: FieldValue.arrayUnion(image)
-            });
-
+            
+            // ドキュメントの存在確認
+            const docSnapshot = await doc.get();
+            
+            if (!docSnapshot.exists) {
+                // ドキュメントが存在しない場合は新規作成
+                await doc.set({
+                    userId: userId,
+                    templateId: 0,
+                    backgroundColor: '#ffffff',
+                    images: [image],
+                    updatedAt: FieldValue.serverTimestamp()
+                });
+            } else {
+                // 既存のドキュメントを更新
+                await doc.update({
+                    images: FieldValue.arrayUnion(image),
+                    updatedAt: FieldValue.serverTimestamp()
+                });
+            }
+    
             return image;
         } catch (error) {
             console.error('Error uploading image:', error);
