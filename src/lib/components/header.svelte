@@ -11,23 +11,23 @@
             {SERVICE_TITLE}
         </Button>
     </div>
-    <div class="mt-3 ml-auto">
-        <Button variant="ghost" size="sm" class="m-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/search")}>
+    <div class="ml-auto mr-3">
+        <Button variant="ghost" size="sm" class="my-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/search")}>
             Search
         </Button>
 
         {#if $page.data.user}
-        <Button variant="ghost" size="sm" class="m-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/mypage")}>
+        <Button variant="ghost" size="sm" class="my-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/mypage")}>
             Mypage
         </Button>
         
-        <Button variant="ghost" size="sm" class="m-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/compiling")}>
+        <Button variant="ghost" size="sm" class="my-3 edu-au-vic-wa-nt-pre-400 text-stone-600" on:click={()=>goto("/compiling")}>
             Edit
         </Button>
         {/if}
 
         {#if !$page.data.user}
-        <Button variant="outline" size="sm" class="m-3 edu-au-vic-wa-nt-pre-400 text-stone-600"
+        <Button variant="outline" size="sm" class="my-3 edu-au-vic-wa-nt-pre-400 text-stone-600"
             on:click={()=>{goto("/auth/login")}}>
             Login
         </Button>
