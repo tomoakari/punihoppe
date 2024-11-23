@@ -45,9 +45,9 @@ export class CompilationStore {
         }
     }
 
-    async uploadImage(userId: string, file: Buffer, order: number): Promise<CompilationImage> {
+    async uploadImage(userId: string, file: Buffer, order: number, mimeType: string): Promise<CompilationImage> {
         try {
-            const imageUrl = await this.storage.uploadCompilationImage(userId, file);
+            const imageUrl = await this.storage.uploadCompilationImage(userId, file, mimeType);
             const imageId = crypto.randomUUID();
             const image: CompilationImage = {
                 id: imageId,

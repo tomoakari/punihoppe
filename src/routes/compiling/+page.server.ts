@@ -38,27 +38,32 @@ export const actions: Actions = {
         if (!locals.user?.email) {
             throw error(401, 'Unauthorized');
         }
-
+    
         const formData = await request.formData();
         const file = formData.get('image') as File;
         
         if (!file) {
             return fail(400, { error: '画像ファイルを選択してください' });
         }
-
+    
         if (file.size > MAX_FILE_SIZE) {
             return fail(400, { error: 'ファイルサイズは5MB以下にしてください' });
         }
-
+    
         const compilation = await compilationStore.getCompilation(locals.user.email);
         if (compilation && compilation.images.length >= MAX_IMAGES) {
             return fail(400, { error: '画像は最大10枚までアップロードできます' });
         }
-
+    
         try {
             const buffer = Buffer.from(await file.arrayBuffer());
             const order = compilation ? compilation.images.length : 0;
-            await compilationStore.uploadImage(locals.user.email, buffer, order);
+            await compilationStore.uploadImage(
+                locals.user.email,
+                buffer,
+                order,
+                file.type  // MIMEタイプを追加
+            );
             return { success: true };
         } catch (err) {
             return fail(500, { error: '画像のアップロードに失敗しました' });
