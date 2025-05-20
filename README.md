@@ -1,6 +1,6 @@
-# sv
+# PuniHoppe
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Everything you need to build a Svelte project, powered by [Svelte](https://svelte.dev) and [`sv`](https://github.com/sveltejs/cli).
 
 ## Creating a project
 
@@ -19,6 +19,7 @@ npx sv create my-app
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
+# start the development server
 npm run dev
 
 # or start the server and open the app in a new browser tab
@@ -30,9 +31,16 @@ npm run dev -- --open
 To create a production version of your app:
 
 ```bash
+# create a production build
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+npm run preview
+```
+
+## Deployment
+
+To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment. See the [deployment documentation](https://kit.svelte.dev/docs/adapters) for more details.
