@@ -1,0 +1,13 @@
+name: punihoppe
+language: typescript
+initial_prompt: |
+  You are working on a SvelteKit project called 'punihoppe'.
+  
+  Key information:
+  - This is a portfolio creation service built with SvelteKit + TypeScript
+  - Uses Google OAuth2 for authentication
+  - Integrates with Firebase and Google Cloud Storage
+  - Styled with TailwindCSS + Shadcn/ui
+  - Main development commands: npm run dev, npm run build, npm run format, npm run check
+  
+  Please refer to the memory files for detailed project information.
